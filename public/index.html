@@ -87,13 +87,83 @@
       @media(max-width:480px){.grid{grid-template-columns:1fr;gap:10px}.test-card{min-height:120px;padding:17px}.card-no{margin-bottom:10px}.topline{align-items:flex-start}.nav{align-items:stretch}.nav .primary,.nav .secondary{padding:11px 13px}.question-card{padding:19px}.answer{padding:12px}}
       @media(max-width:520px){.setup-options{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
       @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+      /* Clear game layout with larger touch targets and a calm study palette. */
+      :root{--ink:#222139;--muted:#696781;--purple:#7046d8;--deep:#4d2aac;--pink:#f05c9c;--line:#e8e5f3;--soft:#f8f7fd;--green:#16846b;--red:#c9475f}
+      body{background:radial-gradient(circle at 12% 4%,#e9e2ff 0,transparent 32%),radial-gradient(circle at 88% 13%,#ffe5f1 0,transparent 26%),#f7f8fc}
+      .wrap{width:min(100% - 32px,1080px);padding-top:28px}
+      header{justify-content:space-between;gap:16px;margin-bottom:24px}
+      .brand-block{display:flex;align-items:center;gap:14px}
+      .brand{width:54px;height:54px;border-radius:17px;background:linear-gradient(135deg,#8c5cf0,#4730b7);box-shadow:0 10px 24px #7046d844}
+      .brand-name{font-weight:700;letter-spacing:.07em;text-transform:uppercase;font-size:11px}
+      h1{font-size:clamp(26px,4vw,38px)}
+      .sound-controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+      .sound-toggle{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 4px 12px #3223760c}
+      .sound-toggle[aria-pressed="true"]{border-color:#b3a2ed;background:#f1ecff;color:var(--deep)}
+      .sound-toggle:hover{transform:translateY(-1px)}
+      .intro{padding:clamp(26px,5vw,48px);border-radius:28px;background:radial-gradient(circle at 87% 23%,#a35cf7 0,transparent 26%),linear-gradient(130deg,#382271 0%,#5c39ba 58%,#8555d2 100%);box-shadow:0 22px 42px #37257827;color:#fff;overflow:hidden}
+      .intro h2{font-size:clamp(29px,5vw,44px);margin-top:7px}
+      .intro p{color:#ede8ff;max-width:670px}
+      .eyebrow{display:inline-block;border:1px solid #ffffff59;border-radius:999px;padding:6px 11px;color:#f5efff;font-weight:750;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+      .hero-facts{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}
+      .hero-facts span{border-radius:999px;padding:7px 11px;background:#ffffff20;color:#fff;font-size:13px;font-weight:700}
+      .grid{gap:14px}
+      .test-card{min-height:175px;border:1px solid #e4dff2;border-radius:21px;box-shadow:0 8px 23px #352b7d0e;position:relative;overflow:hidden}
+      .test-card::after{content:'→';position:absolute;right:20px;bottom:18px;color:#8e79c6;font-size:25px}
+      .test-card:nth-child(3n+2) .card-no{background:#eaf8fb;color:#168a9f}
+      .test-card:nth-child(3n) .card-no{background:#fff0f4;color:#c34278}
+      .card-no{width:43px;height:43px;margin-bottom:18px;border-radius:13px;background:#efeaff;color:var(--deep)}
+      .test-card:hover{border-color:#ad9ae2;box-shadow:0 15px 30px #352b7d22}
+      .question-card,.setup-card{border-radius:25px;box-shadow:0 16px 38px #352b7d12}
+      .question-card{border-top:5px solid var(--purple)}
+      .question-number{color:var(--deep)}
+      .answer{min-height:62px;align-items:center;border-radius:15px;padding:14px 18px;box-shadow:0 2px 0 #352b7d08}
+      .answer:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 7px 18px #352b7d13}
+      .answer:disabled{cursor:default}
+      .letter{width:33px;height:33px;flex-basis:33px;border-radius:10px}
+      .feedback{border-radius:17px;padding:18px 20px}
+      .feedback-title{font-size:19px}
+      .feedback-reason{margin-top:8px;padding-top:9px;border-top:1px solid currentColor;opacity:.9}
+      .nav{position:sticky;bottom:10px;z-index:5;padding:12px;background:#ffffffed;backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:17px;box-shadow:0 12px 30px #352b7d18}
+      .primary{border-radius:12px;background:linear-gradient(135deg,#7850df,#5736bd);box-shadow:0 6px 16px #6640cf2b}
+      .primary:hover{background:linear-gradient(135deg,#6840d4,#492ca8)}
+      .secondary:hover{border-color:#b3a2ed;background:#f8f5ff}
+      .timer-row{font-size:15px}
+      .progress{height:10px;background:#eae7f2}
+      .palette-wrap{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:9px 14px}
+      .palette-wrap summary{cursor:pointer;font-weight:750;color:var(--deep)}
+      .palette{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:7px;margin-top:12px}
+      .palette button{height:35px;border:1px solid var(--line);border-radius:9px;background:#f8f7fd;color:var(--muted);font-size:13px;cursor:pointer}
+      .palette button.answered{background:#e7f7f2;border-color:#a8d8c5;color:var(--green)}
+      .palette button.current{background:var(--deep);border-color:var(--deep);color:#fff}
+      .result{padding:38px 24px 28px}
+      .stats{margin-top:28px}
+      .stat{padding:18px 10px;border-radius:17px;background:#f4f1ff}
+      .stat-value{color:var(--deep);font-size:26px}
+      .review-item{border-radius:15px;box-shadow:0 5px 18px #352b7d0b}
+      .review-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:30px 0 12px}
+      .review-toolbar h3{margin:0;font-size:22px}
+      .review-item summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:flex-start}
+      .review-item summary::-webkit-details-marker{display:none}
+      .review-item summary::after{content:'⌄';margin-left:auto;font-size:20px;color:var(--muted)}
+      .review-item[open] summary::after{content:'⌃'}
+      .review-status{flex:0 0 auto;border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800;background:#fff0f3;color:var(--red)}
+      .review-item.correct .review-status{background:#e5f7f0;color:var(--green)}
+      .review-title{font-weight:730;white-space:pre-wrap}
+      .review-options{display:grid;gap:7px;margin:16px 0 12px}
+      .review-option{padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;white-space:pre-wrap}
+      .review-option.correct{border-color:#a8d8c5;background:#eaf7f1}
+      .review-option.chosen-wrong{border-color:#f0b8c1;background:#fff0f2}
+      .review-tag{display:inline-block;margin-left:8px;font-size:12px;font-weight:800}
+      .review-explanation{padding:12px 14px;border-radius:10px;background:#f4f1ff;color:#4d3f75;font-size:14px;white-space:pre-wrap}
+      @media(max-width:760px){header{align-items:flex-start}.sound-controls{max-width:160px}.palette{grid-template-columns:repeat(7,minmax(0,1fr))}}
+      @media(max-width:520px){.wrap{width:min(100% - 24px,1080px);padding-top:18px}.brand{width:44px;height:44px}.brand-block{gap:9px}.brand-name{font-size:9px}.sound-controls{gap:5px}.sound-toggle{font-size:11px;padding:8px 9px}.intro{border-radius:22px}.grid{gap:10px}.test-card{min-height:130px}.palette{grid-template-columns:repeat(5,minmax(0,1fr))}.nav{bottom:4px}.question-card{padding:19px}}
     </style>
   </head>
   <body>
     <main class="wrap">
-      <header><div class="brand" aria-hidden="true">П</div><div><div class="brand-name">Білімді тексеру</div><h1>Психокоррекция</h1></div></header>
+      <header><div class="brand-block"><div class="brand" aria-hidden="true">П</div><div><div class="brand-name">Білімді тексеру</div><h1>Психокоррекция</h1></div></div><div class="sound-controls"><button id="sfx-toggle" class="sound-toggle" type="button" aria-pressed="true">Дыбыс: қосулы</button><button id="music-toggle" class="sound-toggle" type="button" aria-pressed="false">Әуен: өшірулі</button></div></header>
       <section id="home" class="view active" aria-labelledby="home-title">
-        <div class="intro"><h2 id="home-title">Тестті таңдаңыз</h2><p>300 сұрақ алты бөлімге бөлінген. Әр тестте 50 сұрақ бар. Соңында нәтижеңіз 50 балл бойынша көрсетіліп, қате жауаптар беріледі.</p></div>
+        <div class="intro"><span class="eyebrow">Интерактивті жаттығу</span><h2 id="home-title">Тестті таңдаңыз</h2><p>Алты бөлім, 300 сұрақ. Өз қарқыныңызбен жауап беріңіз, әр жауаптан кейін түсіндірмені оқыңыз және соңында нәтижеңізді көріңіз.</p><div class="hero-facts"><span>6 тест</span><span>Әр тестте 50 сұрақ</span><span>Лезде кері байланыс</span></div></div>
         <div id="test-list" class="grid" aria-label="Алты тест"></div>
       </section>
       <section id="setup" class="view" aria-labelledby="setup-heading">
@@ -116,6 +186,7 @@
         <h2 id="quiz-heading">Тест</h2>
         <div class="progress-label"><span id="progress-text"></span><span id="answered-text"></span></div>
         <div class="progress" role="progressbar" aria-label="Тест барысы" aria-valuemin="0" aria-valuemax="50" aria-valuenow="0"><span id="progress-fill"></span></div>
+        <details class="palette-wrap"><summary>Сұрақтар тізімі · кез келген сұраққа өту</summary><div id="question-palette" class="palette" aria-label="Сұрақтар тізімі"></div></details>
         <div id="timer-row" class="timer-row" aria-live="polite"></div>
         <article class="question-card">
           <div id="question-number" class="question-number"></div>
@@ -137,9 +208,10 @@
           </div>
           <p id="elapsed" class="result-sub"></p>
           <p id="timeout-note" class="result-sub" hidden></p>
-          <div class="result-actions"><button id="retry" class="primary" type="button">Қайта тапсыру</button><button id="review-toggle" class="secondary" type="button">Жауаптарды көрсету</button></div>
+          <div class="result-actions"><button id="retry" class="primary" type="button">Қайта тапсыру</button><button id="review-toggle" class="secondary" type="button">Толық шолуды жасыру</button></div>
         </div>
-        <div id="review" class="review" hidden></div>
+        <div id="review-toolbar" class="review-toolbar"><h3>Барлық 50 сұрақтың талдауы</h3><button id="review-filter" class="secondary" type="button">Қателерді ғана көрсету</button></div>
+        <div id="review" class="review"></div>
       </section>
       <footer>Таңдалған жауап басқа сұраққа өткенде сақталады. Жауаптар бастапқы тест кілті бойынша тексеріледі.</footer>
     </main>
@@ -147,9 +219,24 @@
       const ranges = Array.from({length:6}, (_,i)=>({start:i*50+1,end:i*50+50}));
       const list = document.querySelector('#test-list');
       const views = [...document.querySelectorAll('.view')];
-      const state = {range:null, questions:[], index:0, answers:new Map(), completed:false, limitMinutes:15, startedAt:0, deadline:0, timerId:null, timedOut:false};
+      const state = {range:null, questions:[], index:0, answers:new Map(), completed:false, limitMinutes:15, startedAt:0, deadline:0, timerId:null, timedOut:false, reviewWrongOnly:false};
       const letters = ['А','Б','В','Г','Д'];
       let data = [];
+      let audioContext,musicInterval=null,musicStep=0,musicEnabled=false,sfxEnabled=true;
+      function tone(frequency,duration=.1,volume=.018,type='sine'){
+        try{
+          audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
+          if(audioContext.state==='suspended')audioContext.resume();
+          const oscillator=audioContext.createOscillator(),gain=audioContext.createGain(),now=audioContext.currentTime;
+          oscillator.type=type;oscillator.frequency.value=frequency;
+          gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(volume,now+.025);
+          gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+          oscillator.connect(gain).connect(audioContext.destination);oscillator.start(now);oscillator.stop(now+duration+.02);
+        }catch(_){/* Sound is optional if the browser blocks audio. */}
+      }
+      function feedbackSound(correct){if(!sfxEnabled)return;if(correct){tone(520,.14,.026);setTimeout(()=>tone(780,.2,.022),100);}else{tone(330,.2,.022);setTimeout(()=>tone(247,.22,.016),110);}}
+      function musicTick(){if(!musicEnabled||document.hidden)return;const notes=[261.63,329.63,392,329.63,293.66,349.23,440,349.23];tone(notes[musicStep%notes.length],.65,.009);if(musicStep%4===0)tone(notes[musicStep%notes.length]/2,1.5,.005);musicStep++;}
+      function setMusic(enabled){musicEnabled=enabled;if(musicInterval){clearInterval(musicInterval);musicInterval=null;}if(enabled){musicTick();musicInterval=setInterval(musicTick,850);}const button=document.querySelector('#music-toggle');button.setAttribute('aria-pressed',String(enabled));button.textContent=enabled?'Әуен: қосулы':'Әуен: өшірулі';}
       const show = id => { views.forEach(v=>v.classList.toggle('active',v.id===id)); window.scrollTo({top:0,behavior:'smooth'}); };
       const rangeText = r => `${r.start}–${r.end}`;
       function renderHome(){
@@ -181,6 +268,7 @@
         if(seconds===0&&!state.completed){state.timedOut=true;finish();}
       }
       function explainAnswer(q){
+        if(q.explanation)return q.explanation;
         const prompt=q.question.toLocaleLowerCase('kk');
         if(/мағынасы|нені білдіреді|анықтамасы/.test(prompt))return 'Бұл нұсқа сұралған ұғымның мағынасын нақты береді.';
         if(/мақсаты|бағытталған/.test(prompt))return 'Бұл жауап психокоррекциялық жұмыстың сұрақта қойылған мақсатына сәйкес келеді.';
@@ -196,11 +284,12 @@
         document.querySelector('#question-text').textContent=q.question;
         const box=document.querySelector('#answers');box.replaceChildren();
         const selected=state.answers.get(q.number);const hasAnswer=selected!==undefined;
-        q.options.forEach((option,i)=>{const button=document.createElement('button');button.type='button';button.setAttribute('role','radio');button.className='answer'+(selected===i?' selected':'');if(hasAnswer&&i===q.correct)button.classList.add('correct');if(hasAnswer&&i===selected&&selected!==q.correct)button.classList.add('incorrect');button.setAttribute('aria-checked',selected===i?'true':'false');button.disabled=hasAnswer;button.innerHTML=`<span class="letter">${letters[i]}</span><span class="answer-text"></span>`;button.querySelector('.answer-text').textContent=option;button.addEventListener('click',()=>{if(state.answers.has(q.number))return;state.answers.set(q.number,i);renderQuestion();});box.append(button);});
+        q.options.forEach((option,i)=>{const button=document.createElement('button');button.type='button';button.setAttribute('role','radio');button.className='answer'+(selected===i?' selected':'');if(hasAnswer&&i===q.correct)button.classList.add('correct');if(hasAnswer&&i===selected&&selected!==q.correct)button.classList.add('incorrect');button.setAttribute('aria-checked',selected===i?'true':'false');button.disabled=hasAnswer;button.innerHTML=`<span class="letter">${letters[i]}</span><span class="answer-text"></span>`;button.querySelector('.answer-text').textContent=option;button.addEventListener('click',()=>{if(state.answers.has(q.number))return;state.answers.set(q.number,i);feedbackSound(i===q.correct);renderQuestion();});box.append(button);});
         const feedback=document.querySelector('#feedback');feedback.replaceChildren();feedback.hidden=!hasAnswer;feedback.className='feedback '+(selected===q.correct?'good':'bad');
-        if(hasAnswer){const heading=document.createElement('div');heading.className='feedback-title';heading.textContent=selected===q.correct?'Дұрыс!':'Қате жауап';const detail=document.createElement('div');detail.textContent=`Дұрыс жауап: ${letters[q.correct]}) ${q.options[q.correct]}.`;const reason=document.createElement('div');reason.textContent=explainAnswer(q);feedback.append(heading,detail,reason);}
+        if(hasAnswer){const heading=document.createElement('div');heading.className='feedback-title';heading.textContent=selected===q.correct?'Дұрыс!':'Қате жауап';const detail=document.createElement('div');detail.textContent=`Дұрыс жауап: ${letters[q.correct]}) ${q.options[q.correct]}.`;const reason=document.createElement('div');reason.className='feedback-reason';reason.textContent=explainAnswer(q);feedback.append(heading,detail,reason);}
         const count=state.answers.size;document.querySelector('#progress-text').textContent=`${state.index+1} / 50 сұрақ`;document.querySelector('#answered-text').textContent=`Жауап берілді: ${count} / 50`;document.querySelector('#progress-fill').style.width=`${(state.index+1)*2}%`;document.querySelector('.progress').setAttribute('aria-valuenow',String(state.index+1));
         document.querySelector('#previous').disabled=state.index===0;document.querySelector('#next').hidden=state.index===49;document.querySelector('#submit').hidden=state.index!==49;document.querySelector('#submit').textContent=count===50?'Тестті аяқтау':`Аяқтау · жауап жоқ: ${50-count}`;
+        const palette=document.querySelector('#question-palette');palette.replaceChildren();state.questions.forEach((item,i)=>{const button=document.createElement('button');button.type='button';button.textContent=String(i+1);button.title=`${item.number}-сұрақ`;button.className=(state.answers.has(item.number)?'answered ':'')+(i===state.index?'current':'');button.setAttribute('aria-label',`${item.number}-сұрақ${state.answers.has(item.number)?', жауап берілді':''}`);button.addEventListener('click',()=>{state.index=i;renderQuestion();window.scrollTo({top:0,behavior:'smooth'});});palette.append(button);});
       }
       function finish(){
         if(state.completed)return;
@@ -219,9 +308,32 @@
         document.querySelector('#timeout-note').hidden=!state.timedOut;
         document.querySelector('#timeout-note').textContent='Уақыт аяқталды. Нәтиже берілген жауаптар бойынша есептелді.';
         document.querySelector('#score-message').textContent=percent===100?'Керемет нәтиже!':percent>=70?'Жақсы нәтиже. Қате жауаптарды қарап шығыңыз.':'Материалды қайталап, тестті қайта тапсырып көріңіз.';
-        document.querySelector('#review').hidden=true;document.querySelector('#review-toggle').textContent='Жауаптарды көрсету';renderReview();show('results');
+        state.reviewWrongOnly=false;document.querySelector('#review').hidden=false;document.querySelector('#review-toolbar').hidden=false;document.querySelector('#review-toggle').textContent='Толық шолуды жасыру';document.querySelector('#review-filter').textContent='Қателерді ғана көрсету';renderReview();show('results');
       }
-      function renderReview(){const box=document.querySelector('#review');box.replaceChildren();state.questions.forEach(q=>{const selected=state.answers.get(q.number);if(selected===q.correct)return;const item=document.createElement('article');item.className='review-item';const title=document.createElement('div');title.className='review-q';title.textContent=`${q.number}. ${q.question}`;item.append(title);const yours=document.createElement('div');yours.className='review-line '+(selected===undefined?'':'bad');yours.textContent=selected===undefined?'Сіздің жауабыңыз: жауап берілмеді':`Сіздің жауабыңыз: ${letters[selected]}) ${q.options[selected]}`;const key=document.createElement('div');key.className='review-line good';key.textContent=`Дұрыс жауап: ${letters[q.correct]}) ${q.options[q.correct]}`;item.append(yours,key);box.append(item);});if(!box.children.length){const done=document.createElement('p');done.className='empty';done.textContent='Қате жоқ — барлық жауап дұрыс.';box.append(done);}}
+      function renderReview(){
+        const box=document.querySelector('#review');box.replaceChildren();
+        state.questions.forEach(q=>{
+          const selected=state.answers.get(q.number),right=selected===q.correct;
+          if(state.reviewWrongOnly&&right)return;
+          const card=document.createElement('details');card.className='review-item'+(right?' correct':'');
+          const summary=document.createElement('summary');
+          const status=document.createElement('span');status.className='review-status';status.textContent=right?'Дұрыс':selected===undefined?'Жауапсыз':'Қате';
+          const title=document.createElement('span');title.className='review-title';title.textContent=`${q.number}. ${q.question}`;
+          summary.append(status,title);card.append(summary);
+          const choices=document.createElement('div');choices.className='review-options';
+          q.options.forEach((option,i)=>{
+            const row=document.createElement('div');row.className='review-option';
+            if(i===q.correct)row.classList.add('correct');
+            if(i===selected&&i!==q.correct)row.classList.add('chosen-wrong');
+            row.textContent=`${letters[i]}) ${option}`;
+            if(i===selected||i===q.correct){const tag=document.createElement('span');tag.className='review-tag';tag.textContent=i===selected&&i===q.correct?'✓ Сіздің жауабыңыз · дұрыс':i===selected?'← Сіздің таңдауыңыз':'✓ Дұрыс жауап';row.append(tag);}
+            choices.append(row);
+          });
+          const explanation=document.createElement('div');explanation.className='review-explanation';explanation.textContent=`Түсіндірме: ${explainAnswer(q)}`;
+          card.append(choices,explanation);box.append(card);
+        });
+        if(!box.children.length){const empty=document.createElement('p');empty.className='empty';empty.textContent='Қате жоқ — барлық жауап дұрыс.';box.append(empty);}
+      }
       document.querySelector('#setup-home').addEventListener('click',()=>show('home'));
       document.querySelector('#start-quiz').addEventListener('click',start);
       document.querySelector('#back-home').addEventListener('click',()=>{if(state.timerId){clearInterval(state.timerId);state.timerId=null;}show('home');});
@@ -230,7 +342,12 @@
       document.querySelector('#next').addEventListener('click',()=>{if(state.index<49){state.index++;renderQuestion();}});
       document.querySelector('#submit').addEventListener('click',finish);
       document.querySelector('#retry').addEventListener('click',()=>{document.querySelector('input[name="time-limit"][value="'+state.limitMinutes+'"]').checked=true;start();});
-      document.querySelector('#review-toggle').addEventListener('click',e=>{const box=document.querySelector('#review');box.hidden=!box.hidden;e.currentTarget.textContent=box.hidden?'Жауаптарды көрсету':'Жауаптарды жасыру';});
+      document.querySelector('#review-toggle').addEventListener('click',e=>{const box=document.querySelector('#review');box.hidden=!box.hidden;document.querySelector('#review-toolbar').hidden=box.hidden;e.currentTarget.textContent=box.hidden?'Толық шолуды көрсету':'Толық шолуды жасыру';});
+      document.querySelector('#review-filter').addEventListener('click',e=>{state.reviewWrongOnly=!state.reviewWrongOnly;e.currentTarget.textContent=state.reviewWrongOnly?'Барлық сұрақтарды көрсету':'Қателерді ғана көрсету';renderReview();});
+      document.querySelector('#sfx-toggle').addEventListener('click',e=>{sfxEnabled=!sfxEnabled;e.currentTarget.setAttribute('aria-pressed',String(sfxEnabled));e.currentTarget.textContent=sfxEnabled?'Дыбыс: қосулы':'Дыбыс: өшірулі';});
+      document.querySelector('#music-toggle').addEventListener('click',()=>setMusic(!musicEnabled));
+      document.addEventListener('click',e=>{if(sfxEnabled&&e.target.closest('button:not(.answer):not(#music-toggle):not(#sfx-toggle)'))tone(640,.065,.012);});
+      document.addEventListener('visibilitychange',()=>{if(musicEnabled&&!document.hidden)musicTick();});
       fetch('./data/questions.json').then(r=>{if(!r.ok)throw new Error('Сұрақтар жүктелмеді');return r.json();}).then(questions=>{if(!Array.isArray(questions)||questions.length!==300)throw new Error('Сұрақтар жиыны 300 сұрақтан тұруы керек');data=questions;renderHome();}).catch(error=>{list.innerHTML='';const message=document.createElement('p');message.className='empty';message.textContent=`Тесттер жүктелмеді: ${error.message}. Бетті жаңартыңыз.`;list.append(message);});
     </script>
   </body>
