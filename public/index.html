@@ -50,9 +50,17 @@
       .answer{display:flex;align-items:flex-start;gap:13px;width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:15px;background:#fff;text-align:left;cursor:pointer;color:var(--ink);transition:background .14s,border-color .14s}
       .answer:hover{background:var(--soft);border-color:#cfb3d5}
       .answer.selected{border-color:var(--purple);background:#f7eff9;box-shadow:inset 0 0 0 1px var(--purple)}
+      .answer.correct{border-color:#68b898;background:#eaf7f1;box-shadow:inset 0 0 0 1px #68b898}
+      .answer.incorrect{border-color:#df8090;background:#fff0f2;box-shadow:inset 0 0 0 1px #df8090}
       .letter{display:grid;place-items:center;flex:0 0 29px;height:29px;border-radius:9px;background:#f1ebf3;color:var(--purple);font-weight:800;font-size:14px}
       .answer.selected .letter{background:var(--purple);color:#fff}
+      .answer.correct .letter{background:var(--green);color:#fff}
+      .answer.incorrect .letter{background:var(--red);color:#fff}
       .answer-text{padding-top:2px;white-space:pre-wrap}
+      .feedback{margin-top:17px;padding:16px 18px;border-radius:15px;border:1px solid;line-height:1.55}
+      .feedback.good{border-color:#a8d8c5;background:#edf8f3;color:#145b42}
+      .feedback.bad{border-color:#f0b8c1;background:#fff2f4;color:#782b3c}
+      .feedback-title{font-weight:850;margin-bottom:5px}
       .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
       .nav-right{display:flex;gap:10px}
       .primary{border:0;border-radius:13px;padding:12px 18px;background:var(--deep);color:#fff;font-weight:750;cursor:pointer}
@@ -113,6 +121,7 @@
           <div id="question-number" class="question-number"></div>
           <div id="question-text" class="question-text"></div>
           <div id="answers" class="answers" role="radiogroup" aria-label="Жауап нұсқалары"></div>
+          <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
         </article>
         <div class="nav"><button id="previous" class="secondary" type="button">← Артқа</button><div class="nav-right"><button id="next" class="primary" type="button">Келесі →</button><button id="submit" class="primary" type="button" hidden>Тестті аяқтау</button></div></div>
       </section>
@@ -171,12 +180,25 @@
         box.textContent=`Қалған уақыт: ${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;
         if(seconds===0&&!state.completed){state.timedOut=true;finish();}
       }
+      function explainAnswer(q){
+        const prompt=q.question.toLocaleLowerCase('kk');
+        if(/мағынасы|нені білдіреді|анықтамасы/.test(prompt))return 'Бұл нұсқа сұралған ұғымның мағынасын нақты береді.';
+        if(/мақсаты|бағытталған/.test(prompt))return 'Бұл жауап психокоррекциялық жұмыстың сұрақта қойылған мақсатына сәйкес келеді.';
+        if(/кезең/.test(prompt))return 'Бұл нұсқа сұрақта сұралған уақыт кезеңін көрсетеді.';
+        if(/қадам|реті|кезектілігі/.test(prompt))return 'Бұл жауап сұралған қадамды немесе әрекеттер ретін дұрыс көрсетеді.';
+        if(/кім|кімнің|кімдермен|қатысушы/.test(prompt))return 'Бұл жауап сұрақта көрсетілген қатысушыны немесе нысанды дұрыс анықтайды.';
+        if(/ерекшелігі|сипатталады|сипаты/.test(prompt))return 'Бұл нұсқа психокоррекцияның сұралған негізгі ерекшелігін сипаттайды.';
+        return 'Бұл нұсқа сұрақтағы негізгі мазмұнға сәйкес келеді және қажетті деректі нақты береді.';
+      }
       function renderQuestion(){
         const q=state.questions[state.index]; if(!q)return;
         document.querySelector('#question-number').textContent=`СҰРАҚ ${q.number}`;
         document.querySelector('#question-text').textContent=q.question;
         const box=document.querySelector('#answers');box.replaceChildren();
-        q.options.forEach((option,i)=>{const button=document.createElement('button');button.type='button';button.setAttribute('role','radio');button.className='answer'+(state.answers.get(q.number)===i?' selected':'');button.setAttribute('aria-checked',state.answers.get(q.number)===i?'true':'false');button.innerHTML=`<span class="letter">${letters[i]}</span><span class="answer-text"></span>`;button.querySelector('.answer-text').textContent=option;button.addEventListener('click',()=>{state.answers.set(q.number,i);renderQuestion();});box.append(button);});
+        const selected=state.answers.get(q.number);const hasAnswer=selected!==undefined;
+        q.options.forEach((option,i)=>{const button=document.createElement('button');button.type='button';button.setAttribute('role','radio');button.className='answer'+(selected===i?' selected':'');if(hasAnswer&&i===q.correct)button.classList.add('correct');if(hasAnswer&&i===selected&&selected!==q.correct)button.classList.add('incorrect');button.setAttribute('aria-checked',selected===i?'true':'false');button.disabled=hasAnswer;button.innerHTML=`<span class="letter">${letters[i]}</span><span class="answer-text"></span>`;button.querySelector('.answer-text').textContent=option;button.addEventListener('click',()=>{if(state.answers.has(q.number))return;state.answers.set(q.number,i);renderQuestion();});box.append(button);});
+        const feedback=document.querySelector('#feedback');feedback.replaceChildren();feedback.hidden=!hasAnswer;feedback.className='feedback '+(selected===q.correct?'good':'bad');
+        if(hasAnswer){const heading=document.createElement('div');heading.className='feedback-title';heading.textContent=selected===q.correct?'Дұрыс!':'Қате жауап';const detail=document.createElement('div');detail.textContent=`Дұрыс жауап: ${letters[q.correct]}) ${q.options[q.correct]}.`;const reason=document.createElement('div');reason.textContent=explainAnswer(q);feedback.append(heading,detail,reason);}
         const count=state.answers.size;document.querySelector('#progress-text').textContent=`${state.index+1} / 50 сұрақ`;document.querySelector('#answered-text').textContent=`Жауап берілді: ${count} / 50`;document.querySelector('#progress-fill').style.width=`${(state.index+1)*2}%`;document.querySelector('.progress').setAttribute('aria-valuenow',String(state.index+1));
         document.querySelector('#previous').disabled=state.index===0;document.querySelector('#next').hidden=state.index===49;document.querySelector('#submit').hidden=state.index!==49;document.querySelector('#submit').textContent=count===50?'Тестті аяқтау':`Аяқтау · жауап жоқ: ${50-count}`;
       }
